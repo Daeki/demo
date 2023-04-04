@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 	
-	@Value("test")
+	@Value("${test}")
 	private String msg;
 	
 	@GetMapping("/")
