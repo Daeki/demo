@@ -7,12 +7,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 	
-	@Value("${test}")
-	private String msg;
+	@Value("${name}")
+	private String name;
+	
+	@Value("${age}")
+	private String age;
+	
+	@Value("${email}")
+	private String email;
+	
+	@Value("${phone}")
+	private String phone;
+	
+	
 	
 	@GetMapping("/")
 	public String home() {
-		System.out.println(msg);
+		System.out.println(name);
+		System.out.println(age);
+		System.out.println(email);
+		System.out.println(phone);
 		return "homeupdate";
 	}
 
