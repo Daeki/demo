@@ -8,11 +8,21 @@
 
 name: Java CI with Maven
 
+# 본인이 설정한 값을 여기서 채워넣습니다.# 리전, 버킷 이름, CodeDeploy 앱 이름, CodeDeploy 배포 그룹 이름env:
+env:
+  AWS_REGION: ap-northeast-2
+  S3_BUCKET_NAME: my-cicd-github
+  CODE_DEPLOY_APPLICATION_NAME: my-cicd-codedeploy
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: my-cicd-codedeploy-group
 on:
   push:
     branches: [ "master" ]
+        
+  
   pull_request:
     branches: [ "master" ]
+    
+
 
 jobs:
   build:
@@ -40,11 +50,11 @@ jobs:
       run: mvn -Dmaven.test.skip=true -B package --file pom.xml
       # run: mvn -B package --file pom.xml (default)
       
-#       # 전송할 파일을 담을 디렉토리 생성
+# #       # 전송할 파일을 담을 디렉토리 생성
 #     - name: Make Directory for deliver
 #       run: mkdir deploy && cp target/*.jar deploy/ && cp appspec.yml deploy/ && cp script/deploy.sh deploy/      
       
-#       # 압축  
+# #       # 압축  
 #     - name: Make zip file
 #       run: zip -r -qq -j demo.zip deploy      
       
@@ -56,9 +66,11 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_CICD_ACCESS_KEY }}
         # ap-northeast-2
         #${{ env.AWS_REGION }} 
-        aws-region: ap-northeast-2 
+        aws-region: ${{ env.AWS_REGION }}
+        
+        
 
-      # (5) 빌드 결과물을 S3 버킷에 업로드
+#       # (5) 빌드 결과물을 S3 버킷에 업로드
     - name: Upload to AWS S3
       run: |
             aws deploy push \
@@ -67,7 +79,7 @@ jobs:
               --s3-location s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip \
               --source .
 
-      # (6) S3 버킷에 있는 파일을 대상으로 CodeDeploy 실행
+#       # (6) S3 버킷에 있는 파일을 대상으로 CodeDeploy 실행
     - name: Deploy to AWS EC2 from S3
       run: |
           aws deploy create-deployment \
