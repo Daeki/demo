@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 echo "stop sh"
 PROJECT_ROOT="/home/ubuntu/app"
-JAR_FILE="$PROJECT_ROOT/demo-0.0.1-SNAPSHOT.jar"
+JAR_FILE="$PROJECT_ROOT/spring-webapp.jar.jar"
 
 DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 
